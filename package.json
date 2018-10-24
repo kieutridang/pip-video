@@ -1,0 +1,28 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "devtron": "^1.4.0",
+    "electron-debug": "^2.0.0"
+  },
+  "build": {
+    "appId": "your.id",
+    "mac": {
+      "category": "your.app.category.type",
+      "icon": "./img/youtube-512.png"
+    }
+  },
+  "devDependencies": {
+    "electron-builder": "^20.28.4",
+    "electron": "^3.0.5"
+  }
+}
