@@ -1,24 +1,39 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const electron = require('electron')
+const { app, BrowserWindow, ipcMain, Tray, Menu } = require('electron')
+let buildTray = require('./tray')
 let win;
 
+const { 
+  WIDTH,
+  HEIGHT,
+} = require('./constants')
+
 function createWindow(launchInfo) {
+  const { screen } = electron
+  
+  const {
+    size: { 
+      width: monitorWidth,
+      height: monitorHeight 
+    }
+  } = screen.getPrimaryDisplay()
   win = new BrowserWindow({
-    width: 350,
-    height: 200,
-    minWidth: 350,
-    maxWidth: 350,
-    minHeight: 200,
-    maxHeight: 200,
+    width: WIDTH,
+    height: HEIGHT,
+    minWidth: WIDTH,
+    maxWidth: WIDTH,
+    minHeight: HEIGHT,
+    maxHeight: HEIGHT,
     frame: false,
     // titleBarStyle: 'hidden',
     icon: `file://${__dirname}/img/youtube-512.png`,
   });
   // win.loadFile('./index.html');
   win.loadURL('https://youtube.com');
-  win.setPosition(0, 700);
+  win.setPosition(0, monitorHeight - HEIGHT);
   // win.webContents.openDevTools();
   win.on('closed', (event) => {
-    win = null;
+    win = null; 
   })
   require('electron-debug')();
   require('devtron').install();
@@ -26,6 +41,8 @@ function createWindow(launchInfo) {
   win.setAlwaysOnTop(true, "floating");
   win.setVisibleOnAllWorkspaces(true);
   win.setFullScreenable(false);
+
+  buildTray.bind(win)()
 }
 
 ipcMain.on('log', (event, args) => {
